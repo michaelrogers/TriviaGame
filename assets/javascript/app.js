@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	const startTimer = () => {
 		let timeValue = 30;
 		timer.innerHTML = timeValue;
-		timerInterval = setInterval( () => {
+		timerInterval = setInterval(() => {
 			timeValue--;
 			timer.innerHTML = timeValue;
 			if (timeValue < 1) {
@@ -57,11 +57,13 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 
 	const winCondition = () => {
+		clearInterval(timerInterval);
 		informationLine.innerHTML = 'You win!';
 		inputAccepted = false;
 	}
 
 	const loseCondition = (incorrectGuess) => {
+		clearInterval(timerInterval);
 		inputAccepted = false; gameOn = false;
 		incorrectGuess 
 			? informationLine.innerHTML = 'You guessed incorrectly! Press enter to restart.'
@@ -118,10 +120,9 @@ document.addEventListener('DOMContentLoaded', () => {
 		if (inputAccepted){
 			const evaluateGuess = evaluateAnswerSelected(event.currentTarget) ? true : false;
 			event.currentTarget.classList.add('waitingForAnswer');
-			setTimeout(addCorrectGuess, 1000);
 			
+			setTimeout(addCorrectGuess, 1000);
 			if (evaluateGuess) {
-					// event.currentTarget.classList.add('correctGuess');
 					answeredCount++;
 					clearInterval(timerInterval)
 					setTimeout(gameHandler, 2000);
