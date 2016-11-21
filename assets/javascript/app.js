@@ -27,6 +27,16 @@ document.addEventListener('DOMContentLoaded', () => {
 		return questionArray;
 	}
 
+	const addCorrectGuess = () => {
+		answerBoxArray.map((x) => {
+			if (evaluateAnswerSelected(x)) x.classList.add('correctGuess');
+		});
+	}
+
+	const evaluateAnswerSelected = (target) => {
+		return target.querySelector('.answer').dataset.answer == currentCorrectAnswer;
+	}
+
 	const randomQuestion = () => {
 		let remaining = remainingQuestions();
 		// console.log(remainingQuestions);
@@ -59,26 +69,6 @@ document.addEventListener('DOMContentLoaded', () => {
 		}, 1000);
 	}
 
-	const winCondition = () => {
-		resetAudio();
-		playAudio(9, false);
-		clearInterval(timerInterval);
-		informationLine.innerHTML = "You've won $1 million! Press enter to play again.";
-		inputAccepted = false; gameOn = false;
-	}
-
-
-	const loseCondition = (incorrectGuess) => {
-		resetAudio();
-		playAudio(6, false);
-		playAudio(11, true);
-		clearInterval(timerInterval);
-		inputAccepted = false; gameOn = false;
-		incorrectGuess 
-			? informationLine.innerHTML = 'You guessed incorrectly! Press enter to restart.'
-			: informationLine.innerHTML = 'You ran out of time. Press enter to restart.';
-	}
-
 	const populateText = (questionObject) => {
 		let answerBank = questionObject.answerBank;
 		answerBank.push(questionObject.correctAnswer);
@@ -96,7 +86,6 @@ document.addEventListener('DOMContentLoaded', () => {
 					answerBankDOM[answerIndex].setAttribute('data-answer', answerText);
 					answerIndex++;
 					if (answerBank.length < 1) {
-						console.log('Cleared')
 						clearInterval(intSet);
 						inputAccepted = true;
 						startTimer();
@@ -114,16 +103,6 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 	}
 
-	const addCorrectGuess = () => {
-		answerBoxArray.map((x) => {
-			if (evaluateAnswerSelected(x)) x.classList.add('correctGuess');
-		});
-	}
-
-	const evaluateAnswerSelected = (target) => {
-		return target.querySelector('.answer').dataset.answer == currentCorrectAnswer;
-	}
-
 	const clickListener = (event) => {
 		let thisEvent = event;
 		resetAudio(12); //Stop clock audio
@@ -139,31 +118,25 @@ document.addEventListener('DOMContentLoaded', () => {
 					//Sound to play for correct answer; 3 different stages
 					setTimeout(() => {
 						let audioIndex;
-						if (answeredCount < 6) {
-							audioIndex = 1;
-						} else if (answeredCount < 11) {
-							audioIndex = 3;
-						}
+						if (answeredCount < 6) audioIndex = 1;
+						else if (answeredCount < 11) audioIndex = 3;
 						else audioIndex = 5;
 						playAudio(audioIndex);
 						setTimeout(gameHandler, audioArray[audioIndex].duration * 1000 * 0.7);
 					}, audioArray[10].duration * 1000 * 0.9);
-			}
-			else {
+			} else { //IncorrectGuess
 				clearInterval(timerInterval);
 				setTimeout(() => {
-					loseCondition(true); //IncorrectGuess
+					loseCondition(true); 
 				}, audioArray[10].duration * 1000 * 0.9);
-				
-				
 			}
-			
 		}
 	}	
 
 	const gameHandler = () => {
+		console.log(answeredCount);
 		prizeList.map((x) => x.classList.remove('currentLevel'));
-		if (answeredCount > 0) prizeList[answeredCount-1].classList.add('currentLevel');
+		if (answeredCount > 0) prizeList[answeredCount - 1].classList.add('currentLevel');
 		//Switch to handle the transitioning of audio between stages
 		switch (answeredCount) {
 			case 0:
@@ -183,8 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				break;
 			default:
 				break;
-		}
-			
+		}			
 		timer.innerHTML = '--';
 		const remaining = remainingQuestions();
 		const winningNumber = 15;
@@ -194,9 +166,26 @@ document.addEventListener('DOMContentLoaded', () => {
 			populateText(randomQuestion());
 		} else if (answeredCount >= winningNumber) winCondition();
 		else console.log(new Error("Question bank ran out of questions :/"));
-
 	}
 
+	const winCondition = () => {
+		resetAudio();
+		playAudio(9, false);
+		clearInterval(timerInterval);
+		informationLine.innerHTML = "You've won $1 million! Press enter to play again.";
+		inputAccepted = false; gameOn = false;
+	}
+
+	const loseCondition = (incorrectGuess) => {
+		resetAudio();
+		playAudio(6, false);
+		playAudio(11, true);
+		clearInterval(timerInterval);
+		inputAccepted = false; gameOn = false;
+		(incorrectGuess 
+			? informationLine.innerHTML = 'You guessed incorrectly! Press enter to restart.'
+			: informationLine.innerHTML = 'You ran out of time. Press enter to restart.');
+	}
 
 	const resetAudio = (audioIndex = null) => {
 		if (audioIndex == null) {
@@ -288,7 +277,6 @@ document.addEventListener('DOMContentLoaded', () => {
 		];
 		
 		gameHandler();
-
 	}
 
 	//Execute on DOM content loaded
