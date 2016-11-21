@@ -1,0 +1,142 @@
+body {
+	font-family: 'Open Sans', sans-serif;
+	background: rgba(0,0,0,0.7);
+	color: white;
+	background: url(../images/background.jpg);
+	background-repeat: no-repeat;
+	background-size: 100%;
+  	background-attachment: fixed;
+  	background-color: black;
+}
+
+.answerBox, #questionBlock {
+	border: 2px white solid;
+	padding: 10px;
+	padding-left: 2%;
+	padding-right: 2%;
+	background: rgba(0,0,0,0.8);
+	margin-top: 2%;
+	line-height: 1;
+	font-size: 1.2em;
+	border-radius: 5px;
+	/*transition: 1s;*/
+    font-weight: bolder;
+    cursor: default;
+
+
+}
+.answerBox:hover {
+	background: rgba(210,120,0,0.8);
+    /*color: black;*/
+}
+
+.waitingForAnswer {
+	background: rgba(210,120,0,0.8);
+
+}
+
+.correctGuess {
+	-webkit-animation-name: correctGuess;
+    -webkit-animation-duration: 0.2s;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-iteration-count: 2;
+    /*Important is used to overide the hover effect if the user leaves mouse over answer*/
+    background: rgba(0,210,0,0.8) !important;
+    color: white;
+}
+
+@-webkit-keyframes correctGuess { 
+    0% { background: rgba(0,210,0,0.8); color: white;}
+    50% { background: rgba(210,120,0,0.8); color: white;}
+    100% { background: rgba(0,210,0,0.8); color: white;} 
+} 
+
+#timer {
+	padding-top: 6px;
+	/*position: relative;*/
+	margin: 0 auto;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	height: 80px;
+	width: 80px;
+	border-radius: 50%;
+	border: 3px solid white;
+	font-size: 3em;
+	background: rgba(0,0,0,0.4);
+}
+
+/*#timer span {
+	top: 25%;
+	left: 32%;
+	position: absolute;
+}*/
+
+.answerLetter {
+	color: orange;
+	font-weight: bold;
+}
+
+.answerLetter::before {
+	content: '';
+ 	background-color: white;
+    width: 5px;
+    height: 5px;
+    vertical-align: 15%;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 5px;
+    margin-left: -5px;
+}
+
+#questionBlock {
+	min-height: 45px;
+
+}
+#questionBlock  {
+	vertical-align: middle;
+
+}
+#moneyLevelWrapper {
+	background: rgba(0,0,0,0.4);
+	margin-top: 40px;
+	margin-bottom: 20px;
+	border: white 2px solid;
+}
+#moneyLevelWrapper ul {
+	-webkit-padding-start: 0;
+	width: 100%;
+}
+
+#moneyLevelWrapper li {
+	/*border: 1px solid orange;*/
+	line-height: 1.2;
+	font-size: 18px;
+	width: 100%;
+	margin-top: 5px;
+	text-decoration: none;
+	list-style: none;
+	color: orange;
+	font-weight: bolder;
+}
+
+.currentLevel {
+	background: rgba(210,120,0,0.8);
+	color: white !important;
+}
+
+.levelNumber {
+	display: inline-block;
+	margin-left: 40%;
+	width: 20px;
+	text-align: right;
+	float: left;
+}
+
+.levelValue {
+	display: inline-block;
+	margin-left: 5%;
+}
+
+hr {
+	margin: 0;
+}
