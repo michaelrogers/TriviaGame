@@ -130,11 +130,16 @@ body {
 	width: 20px;
 	text-align: right;
 	float: left;
+	color: darkorange;
 }
 
 .levelValue {
 	display: inline-block;
 	margin-left: 5%;
+}
+
+.levelFallback {
+	color: white;
 }
 
 hr {
